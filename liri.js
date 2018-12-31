@@ -10,7 +10,7 @@ var Spotify = require('node-spotify-api');
 //moment import
 var moment = require('moment');
 
-//fs
+//fs import
 var fs = require('fs');
 
 // axios import
@@ -18,6 +18,8 @@ var axios = require("axios");
 
 var action = process.argv[2];
 var search = process.argv[3];
+
+//switch function based on action
 
 switch (action) {
   case "concert-this":
@@ -36,6 +38,8 @@ switch (action) {
     whatSays();
     break;
 };
+
+//concert-this function
 function concert(search) {
 var queryUrl = "https://rest.bandsintown.com/artists/" + search + "/events?app_id=codingbootcamp";
 axios.get(queryUrl).then(
@@ -50,7 +54,7 @@ function(response) {
 })
 };
 
-// HOW TO USE SPOTIFY
+// spotify-this-song function
 
 function spotify(search) {
 
@@ -75,7 +79,7 @@ function spotify(search) {
   });
 }
 
-//Movie search function 
+//movie-this function
 function movie(search) {
   var queryUrl = "http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=trilogy";
   axios.get(queryUrl).then(
@@ -95,6 +99,7 @@ function(response) {
   })
 };
 
+//do-what-it-says function
 function whatSays() {
 	fs.readFile('random.txt', "utf8", function(error, data){
 
@@ -103,7 +108,7 @@ function whatSays() {
   		}
 		var dataArr = data.split(",");
 
-		// Each command is represented. Because of the format in the txt file, remove the quotes to run these commands. 
+      //slice out quotes in txt file
     if (dataArr[0] === "concert-this") {
 			var concertEvent = dataArr[1].slice(1, -1);
       concert(concertEvent);

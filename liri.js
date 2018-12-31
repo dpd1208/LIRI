@@ -10,6 +10,9 @@ var Spotify = require('node-spotify-api');
 //moment import
 var moment = require('moment');
 
+//fs
+var fs = require('fs');
+
 // axios import
 var axios = require("axios");
 
@@ -90,4 +93,28 @@ function(response) {
       console.log("Actors: " + response.data.Actors);
     }
   })
+};
+
+function whatSays() {
+	fs.readFile('random.txt', "utf8", function(error, data){
+
+		if (error) {
+    		return console.log(error);
+  		}
+		var dataArr = data.split(",");
+
+		// Each command is represented. Because of the format in the txt file, remove the quotes to run these commands. 
+    if (dataArr[0] === "concert-this") {
+			var concertEvent = dataArr[1].slice(1, -1);
+      concert(concertEvent);
+    } else if (dataArr[0] === "spotify-this-song") {
+			var song = dataArr[1].slice(1, -1);
+			spotify(song);
+		} else if(dataArr[0] === "movie-this") {
+			var movieName = dataArr[1].slice(1, -1);
+			movie(movieName);
+		} 
+		
+  	});
+
 };
